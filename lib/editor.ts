@@ -16,18 +16,14 @@ export const Editor = (vueConstructor: any): EditorCtr => {
    * @returns editor instance
    */
   const instance = getCurrentInstance();
-  return function (
-    column: ColumnDataSchemaModel,
-    save: (value: any, preventFocus?: boolean) => void,
-    close: (focusNext?: boolean) => void,
-  ) {
-    return new VueEditorAdapter(
-      vueConstructor,
-      column,
-      save,
-      close,
-      instance,
-    );
-  };
+  return class extends VueEditorAdapter {
+    constructor(
+      column: ColumnDataSchemaModel,
+      save: (value: any, preventFocus?: boolean) => void,
+      close: (focusNext?: boolean) => void,
+    ) {
+      super(vueConstructor, column, save, close, instance);
+    }
+  } as any;
 };
 
